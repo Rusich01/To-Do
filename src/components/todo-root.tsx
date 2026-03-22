@@ -1,4 +1,4 @@
-import { useTodoStore } from "../store/useTodoStore";
+import { useTodoStore } from "../store/use-todo-store";
 import TodoForm from "./todo-form";
 import TodoList from "./todo-list";
 import Modal from "./todo-modal";

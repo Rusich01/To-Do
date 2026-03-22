@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTodoStore } from "../store/useTodoStore";
+import { useTodoStore } from "../store/use-todo-store";
 
 export const useModal = () => {
   const { todos, isOpen, closeModal, updateTodo, idTodo } = useTodoStore();

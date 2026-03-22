@@ -2,7 +2,7 @@ import { LuSend } from "react-icons/lu";
 import { createPortal } from "react-dom";
 
 import { IoClose } from "react-icons/io5";
-import { useModal } from "../hooks/useModal";
+import { useModal } from "../hooks/use-modal";
 
 const Modal = () => {
   const { title, setTitle, handleSubmit, isOpen, closeModal } = useModal();
@@ -12,7 +12,7 @@ const Modal = () => {
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center"
+      className="fixed backdrop-blur-sm inset-0 bg-black/40 flex items-center justify-center"
       onClick={closeModal}
     >
       <form
