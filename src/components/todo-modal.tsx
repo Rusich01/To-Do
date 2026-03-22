@@ -3,11 +3,13 @@ import { createPortal } from "react-dom";
 
 import { IoClose } from "react-icons/io5";
 import { useModal } from "../hooks/use-modal";
+import { useMemo, useRef } from "react";
 
 const Modal = () => {
-  const { title, setTitle, handleSubmit, isOpen, closeModal } = useModal();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { handleSubmit, isOpen, closeModal } = useModal({ inputRef });
 
-  const modalRoot = document.getElementById("modal-root");
+  const modalRoot = useMemo(() => document.getElementById("modal-root"), []);
   if (!modalRoot || !isOpen) return null;
 
   return createPortal(
@@ -32,8 +34,7 @@ const Modal = () => {
 
         <div className="flex gap-2">
           <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            ref={inputRef}
             type="text"
             className="flex-1 border rounded-lg px-3 py-2 outline-none text-black"
           />

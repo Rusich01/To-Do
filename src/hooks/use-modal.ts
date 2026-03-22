@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, type RefObject } from "react";
 import { useTodoStore } from "../store/use-todo-store";
 
-export const useModal = () => {
+interface UseModalProps {
+  inputRef: RefObject<HTMLInputElement | null>;
+}
+
+export const useModal = ({ inputRef }: UseModalProps) => {
   const { todos, isOpen, closeModal, updateTodo, idTodo } = useTodoStore();
-  const [title, setTitle] = useState("");
 
   useEffect(() => {
     const todo = todos.find((todo) => todo.id === idTodo);
 
-    if (todo) {
-      setTitle(todo.title);
+    if (todo && inputRef.current) {
+      inputRef.current.value = todo.title;
     }
 
     const handleEsc = (e: KeyboardEvent) => {
@@ -19,15 +22,17 @@ export const useModal = () => {
     window.addEventListener("keydown", handleEsc);
 
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [closeModal, idTodo, todos]);
+  }, [closeModal, idTodo, todos, inputRef]);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title.trim() === "") return setTitle("");
+
+    const inputValue = inputRef.current?.value.trim();
+    if (!inputValue) return;
 
     closeModal();
-    updateTodo(idTodo, title);
-    setTitle("");
+    updateTodo(idTodo, inputValue);
+    if (inputRef.current) inputRef.current.value = "";
   };
-  return { title, setTitle, handleSubmit, isOpen, closeModal };
+  return { inputRef, handleSubmit, isOpen, closeModal };
 };
