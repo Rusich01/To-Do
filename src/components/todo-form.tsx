@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTodoStore } from "../store/useTodoStore";
+import { useTodoStore } from "../store/use-todo-store";
 import { LuSend } from "react-icons/lu";
 
 const TodoForm = () => {
@@ -21,7 +21,7 @@ const TodoForm = () => {
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="flex-1 border rounded-lg px-3 py-2 outline-none text-black"
+        className={`flex-1 border rounded-lg px-3 py-2 outline-none text-black disable:${loading}`}
         placeholder="Add a new task..."
       />
 

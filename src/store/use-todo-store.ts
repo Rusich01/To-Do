@@ -1,7 +1,6 @@
 import { create } from "zustand";
 
 const API_URL = "https://69a88a8937caab4b8c6203c6.mockapi.io/todo";
-const API_HEADERS = { "Content-Type": "application/json" };
 const API_ERROR = "Request failed";
 
 interface Todo {
@@ -15,6 +14,7 @@ interface TodoState {
   loading: boolean;
   isOpen: boolean;
   error: string | null;
+  controller: AbortController | null;
 
   // function
   idTodo: string;
@@ -34,25 +34,33 @@ export const useTodoStore = create<TodoState>((set) => ({
   error: null,
   isOpen: false,
   idTodo: "",
+  controller: null,
 
   fetchTodos: async () => {
-    set({ loading: true });
+    const prevController = useTodoStore.getState().controller;
+
+    if (prevController) prevController.abort();
+
+    const controller = new AbortController();
+
+    set({ loading: true, controller });
 
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL, {
+        signal: controller.signal,
+      });
+
+      if (!response.ok) throw new Error(API_ERROR);
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(API_ERROR);
-      }
-
       set({
         loading: false,
-
         todos: data,
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === "AbortError") return;
+
       set({
         error: "failed to fetch todos",
 
@@ -68,7 +76,7 @@ export const useTodoStore = create<TodoState>((set) => ({
       const response = await fetch(API_URL, {
         method: "POST",
 
-        headers: API_HEADERS,
+        headers: { "Content-Type": "application/json" },
 
         body: JSON.stringify({
           title,
@@ -102,7 +110,7 @@ export const useTodoStore = create<TodoState>((set) => ({
       const response = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
 
-        headers: API_HEADERS,
+        headers: { "Content-Type": "application/json" },
 
         body: JSON.stringify({
           isChecked: !todo.isChecked,
@@ -142,7 +150,7 @@ export const useTodoStore = create<TodoState>((set) => ({
       const response = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
 
-        headers: API_HEADERS,
+        headers: { "Content-Type": "application/json" },
 
         body: JSON.stringify({ title }),
       });
