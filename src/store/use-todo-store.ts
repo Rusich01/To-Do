@@ -102,8 +102,16 @@ export const useTodoStore = create<TodoState>((set) => ({
   },
 
   toggleTodo: async (id) => {
+    const prevTodo = useTodoStore.getState().todos;
+
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, isChecked: !todo.isChecked } : todo,
+      ),
+    }));
+
     try {
-      const todo = useTodoStore.getState().todos.find((todo) => todo.id === id);
+      const todo = prevTodo.find((todo) => todo.id === id);
 
       if (!todo) return;
 
@@ -117,15 +125,8 @@ export const useTodoStore = create<TodoState>((set) => ({
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(API_ERROR);
-      }
-
-      const data = await response.json();
-
-      set((state) => ({
-        todos: state.todos.map((todo) => (todo.id === id ? data : todo)),
-      }));
+      if (!response.ok) throw new Error(API_ERROR);
+      // const data = await response.json();
     } catch {
       set({ error: "Failed to add todo" });
     }
