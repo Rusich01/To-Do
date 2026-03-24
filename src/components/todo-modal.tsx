@@ -20,7 +20,6 @@ const Modal = () => {
       <form
         onSubmit={handleSubmit}
         role="dialog"
-        aria-modal="true"
         className="bg-white rounded-2xl shadow-xl p-6 w-96"
         onClick={(e) => e.stopPropagation()}
       >
@@ -34,6 +33,8 @@ const Modal = () => {
 
         <div className="flex gap-2">
           <input
+            required
+            id="input-modal"
             ref={inputRef}
             type="text"
             className="flex-1 border rounded-lg px-3 py-2 outline-none text-black"

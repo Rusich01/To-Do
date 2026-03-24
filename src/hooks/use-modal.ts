@@ -10,6 +10,7 @@ export const useModal = ({ inputRef }: UseModalProps) => {
 
   useEffect(() => {
     const todo = todos.find((todo) => todo.id === idTodo);
+    const controller = new AbortController();
 
     if (todo && inputRef.current) {
       inputRef.current.value = todo.title;
@@ -19,9 +20,11 @@ export const useModal = ({ inputRef }: UseModalProps) => {
       if (e.key === "Escape") closeModal();
     };
 
-    window.addEventListener("keydown", handleEsc);
+    window.addEventListener("keydown", handleEsc, {
+      signal: controller.signal,
+    });
 
-    return () => window.removeEventListener("keydown", handleEsc);
+    return () => controller.abort();
   }, [closeModal, idTodo, todos, inputRef]);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {

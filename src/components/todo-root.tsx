@@ -17,7 +17,6 @@ const TodoRoot = () => {
         ) : (
           <p className="text-gray-400 text-sm my-2.5">not todo list ...</p>
         )}
-
         <TodoList />
       </div>
       <Modal />
