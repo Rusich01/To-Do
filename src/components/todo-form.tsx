@@ -20,6 +20,8 @@ const TodoForm = () => {
   return (
     <form className="flex gap-2 mb-4" onSubmit={handleSubmit}>
       <input
+        required
+        id="input-main"
         ref={inputRef}
         className={`flex-1 border rounded-lg px-3 py-2 outline-none text-black disable:${loading}`}
         placeholder="Add a new task..."

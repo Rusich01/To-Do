@@ -21,6 +21,7 @@ const TodoList = () => {
           >
             <label className="flex items-center gap-3">
               <input
+                id="input-checkbox"
                 className="cursor-pointer gap-3 active:scale-95 duration-75"
                 type="checkbox"
                 checked={isChecked}
