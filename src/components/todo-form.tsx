@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useTodoStore } from "../store/use-todo-store";
 import { LuSend } from "react-icons/lu";
 
@@ -11,19 +11,22 @@ const TodoForm = () => {
     e.preventDefault();
 
     const inputValue = inputRef.current?.value.trim();
+
     if (!inputValue) return;
 
     addTodo(inputValue);
+
     if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
     <form className="flex gap-2 mb-4" onSubmit={handleSubmit}>
       <input
+        disabled={loading}
         required
         id="input-main"
         ref={inputRef}
-        className={`flex-1 border rounded-lg px-3 py-2 outline-none text-black disable:${loading}`}
+        className="flex-1 border rounded-lg px-3 py-2 outline-none text-black disable:opacity-10"
         placeholder="Add a new task..."
       />
 

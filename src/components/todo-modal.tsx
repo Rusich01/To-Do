@@ -3,14 +3,14 @@ import { createPortal } from "react-dom";
 
 import { IoClose } from "react-icons/io5";
 import { useModal } from "../hooks/use-modal";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 
 const Modal = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleSubmit, isOpen, closeModal } = useModal({ inputRef });
 
-  const modalRoot = useMemo(() => document.getElementById("modal-root"), []);
-  if (!modalRoot || !isOpen) return null;
+  const todoModal = document.getElementById("modal-root");
+  if (!isOpen || !todoModal) return null;
 
   return createPortal(
     <div
@@ -49,7 +49,7 @@ const Modal = () => {
         </div>
       </form>
     </div>,
-    modalRoot,
+    todoModal,
   );
 };
 
