@@ -125,10 +125,11 @@ export const useTodoStore = create<TodoState>((set) => ({
         }),
       });
 
-      if (!response.ok) throw new Error(API_ERROR);
-      // const data = await response.json();
+      if (!response.ok) {
+        set({ todos: prevTodo, error: "Failed to toggle todo" });
+      }
     } catch {
-      set({ error: "Failed to add todo" });
+      set({ todos: prevTodo, error: "Failed to add todo" });
     }
   },
 

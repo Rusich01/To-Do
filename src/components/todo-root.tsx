@@ -12,13 +12,16 @@ const TodoRoot = () => {
         <h1 className="text-2xl font-bold text-center mb-6">To-Do List</h1>
 
         <TodoForm />
+
         {todos.length > 0 ? (
           <p className="text-gray-400 text-sm my-2.5">todo list:</p>
         ) : (
           <p className="text-gray-400 text-sm my-2.5">not todo list ...</p>
         )}
+
         <TodoList />
       </div>
+
       <Modal />
     </div>
   );
