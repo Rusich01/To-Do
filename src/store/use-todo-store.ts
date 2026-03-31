@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const API_URL = "https://69a88a8937caab4b8c6203c6.mockapi.io/todo";
+const API_URL = "https://69cb66920b417a19e07a9e5c.mockapi.io/todo";
 const API_ERROR = "Request failed";
 
 interface Todo {
